@@ -33,6 +33,7 @@ func App() *cli.Command {
 			&CmdLabels,
 			&CmdMilestones,
 			&CmdReleases,
+			&CmdPackages,
 			&CmdTrackedTimes,
 			&CmdOrgs,
 			&CmdRepos,
