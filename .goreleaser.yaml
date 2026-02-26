@@ -86,9 +86,6 @@ signs:
 snapshot:
   name_template: "{{ .Branch }}-devel"
 
-nightly:
-  name_template: "{{ .Branch }}"
-
 gitea_urls:
   api: https://gitea.com/api/v1
   download: https://gitea.com
