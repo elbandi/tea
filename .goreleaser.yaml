@@ -74,16 +74,6 @@ builds:
       - cmd: sh .goreleaser.checksum.sh {{ .Path }}
       - cmd: sh .goreleaser.checksum.sh {{ .Path }}.xz
 
-blobs:
-  -
-    provider: s3
-    bucket: "{{ .Env.S3_BUCKET }}"
-    region: "{{ .Env.S3_REGION }}"
-    folder: "tea/{{.Version}}"
-    extra_files:
-      - glob: ./**.xz
-      - glob: ./**.sha256
-
 archives:
   - format: binary
     name_template: "{{ .Binary }}"
