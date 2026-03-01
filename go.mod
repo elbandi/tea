@@ -98,3 +98,5 @@ require (
 )
 
 retract v1.3.3 // accidental release, tag deleted
+
+replace code.gitea.io/sdk/gitea => gitea.com/elbandi/go-sdk/gitea v0.23.3-0.20260301232134-a55014ba2f63
