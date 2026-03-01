@@ -21,13 +21,14 @@ var CmdPackageShow = cli.Command{
 	Description: "Show details of a specific package",
 	ArgsUsage:   "<package-type> <package-name> <package-version>",
 	Action:      RunPackageShow,
-	Flags:       flags.AllDefaultFlags,
+	Flags: append([]cli.Flag{
+		&flags.OrgFlag,
+	}, flags.AllDefaultFlags...),
 }
 
 // RunPackageShow shows package details
 func RunPackageShow(_ stdctx.Context, cmd *cli.Command) error {
 	ctx := context.InitCommand(cmd)
-	ctx.Ensure(context.CtxRequirement{RemoteRepo: true})
 
 	if cmd.NArg() < 3 {
 		return fmt.Errorf("package type, name, and version are required")
@@ -39,7 +40,11 @@ func RunPackageShow(_ stdctx.Context, cmd *cli.Command) error {
 
 	client := ctx.Login.Client()
 
-	pkg, _, err := client.GetPackage(ctx.Owner, packageType, packageName, packageVersion)
+	owner := ctx.Owner
+	if ctx.Org != "" {
+		owner = ctx.Org
+	}
+	pkg, _, err := client.GetPackage(owner, packageType, packageName, packageVersion)
 	if err != nil {
 		return err
 	}

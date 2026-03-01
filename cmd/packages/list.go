@@ -33,6 +33,7 @@ var CmdPackageList = cli.Command{
 			Aliases: []string{"q"},
 			Usage:   "Search query to filter packages by name",
 		},
+		&flags.OrgFlag,
 		&flags.PaginationPageFlag,
 		&flags.PaginationLimitFlag,
 	}, flags.AllDefaultFlags...),
@@ -41,11 +42,14 @@ var CmdPackageList = cli.Command{
 // RunPackagesList lists packages
 func RunPackagesList(_ stdctx.Context, cmd *cli.Command) error {
 	ctx := context.InitCommand(cmd)
-	ctx.Ensure(context.CtxRequirement{RemoteRepo: true})
 
 	client := ctx.Login.Client()
 
-	packages, _, err := client.ListPackages(ctx.Owner, gitea.ListPackagesOptions{
+	owner := ctx.Owner
+	if ctx.Org != "" {
+		owner = ctx.Org
+	}
+	packages, _, err := client.ListPackages(owner, gitea.ListPackagesOptions{
 		ListOptions: flags.GetListOptions(),
 	})
 	if err != nil {
