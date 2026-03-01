@@ -1,7 +1,7 @@
 // Copyright 2025 The Gitea Authors. All rights reserved.
 // SPDX-License-Identifier: MIT
 
-package packages
+package generic
 
 import (
 	stdctx "context"
@@ -19,22 +19,15 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-// CmdPackagePublish represents a sub command of Package to publish/upload a package
-var CmdPackagePublish = cli.Command{
+// CmdPackageGenericPublish represents a sub command of Package to publish/upload a package
+var CmdPackageGenericPublish = cli.Command{
 	Name:        "publish",
 	Aliases:     []string{"upload", "push"},
-	Usage:       "Publish a package file",
-	Description: "Publish a package file to the package registry",
+	Usage:       "Publish a generic package file",
+	Description: "Publish a generic package file to the package registry",
 	ArgsUsage:   " ",
 	Action:      runPackagePublish,
 	Flags: append([]cli.Flag{
-		&cli.StringFlag{
-			Name:     "package-type",
-			Aliases:  []string{"t"},
-			Usage:    "Package type (e.g., generic, npm, maven, container)",
-			Required: false,
-			Value:    "generic",
-		},
 		&cli.StringFlag{
 			Name:     "package-name",
 			Aliases:  []string{"n"},
@@ -60,7 +53,6 @@ func runPackagePublish(_ stdctx.Context, cmd *cli.Command) error {
 	ctx := context.InitCommand(cmd)
 	ctx.Ensure(context.CtxRequirement{RemoteRepo: true})
 
-	packageType := cmd.String("package-type")
 	packageName := cmd.String("package-name")
 	packageVersion := cmd.String("package-version")
 	files := cmd.StringSlice("file")
@@ -79,7 +71,7 @@ func runPackagePublish(_ stdctx.Context, cmd *cli.Command) error {
 
 	// Upload each file
 	for _, filePath := range files {
-		if err := uploadPackageFile(ctx, packageType, packageName, packageVersion, filePath); err != nil {
+		if err := uploadPackageFile(ctx, packageName, packageVersion, filePath); err != nil {
 			return fmt.Errorf("failed to upload %s: %w", filePath, err)
 		}
 		fmt.Printf("Uploaded: %s\n", filepath.Base(filePath))
@@ -87,14 +79,14 @@ func runPackagePublish(_ stdctx.Context, cmd *cli.Command) error {
 
 	// Print success message with package URL
 	fmt.Printf("\nPackage published successfully!\n")
-	fmt.Printf("Package: %s/%s@%s\n", packageType, packageName, packageVersion)
-	fmt.Printf("URL: %s/%s/-/packages/%s/%s/%s\n",
-		ctx.Login.URL, ctx.Owner, packageType, packageName, packageVersion)
+	fmt.Printf("Package: generic/%s@%s\n", packageName, packageVersion)
+	fmt.Printf("URL: %s/%s/-/packages/generic/%s/%s\n",
+		ctx.Login.URL, ctx.Owner, packageName, packageVersion)
 
 	return nil
 }
 
-func uploadPackageFile(ctx *context.TeaContext, packageType, packageName, packageVersion, filePath string) error {
+func uploadPackageFile(ctx *context.TeaContext, packageName, packageVersion, filePath string) error {
 	// Open the file
 	file, err := os.Open(filePath)
 	if err != nil {
@@ -112,10 +104,9 @@ func uploadPackageFile(ctx *context.TeaContext, packageType, packageName, packag
 
 	// Construct the API URL
 	// Generic package upload endpoint: PUT /api/packages/{owner}/generic/{package_name}/{package_version}/{file_name}
-	apiURL := fmt.Sprintf("%s/api/packages/%s/%s/%s/%s/%s",
+	apiURL := fmt.Sprintf("%s/api/packages/%s/generic/%s/%s/%s",
 		strings.TrimSuffix(ctx.Login.URL, "/"),
 		ctx.Owner,
-		packageType,
 		packageName,
 		packageVersion,
 		fileName,
