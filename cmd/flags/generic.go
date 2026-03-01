@@ -24,6 +24,12 @@ var RepoFlag = cli.StringFlag{
 	Usage:   "Override local repository path or gitea repository slug to interact with. Optional",
 }
 
+// OrgFlag provides flag to specify repository
+var OrgFlag = cli.StringFlag{
+	Name:  "org",
+	Usage: "Override organization to interact with. Optional",
+}
+
 // RemoteFlag provides flag to specify remote repository
 var RemoteFlag = cli.StringFlag{
 	Name:    "remote",
