@@ -25,6 +25,7 @@ var CmdPackages = cli.Command{
 		&packages.CmdPackageFiles,
 		&packages.CmdPackageDelete,
 		&packages.CmdPackagesGeneric,
+		&packages.CmdPackagesTerraformProvider,
 	},
 	Flags: flags.AllDefaultFlags,
 }
