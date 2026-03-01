@@ -39,7 +39,7 @@ func NormalizeURL(raw string) (*url.URL, error) {
 // based on relative path and default owner (if not in path)
 func GetOwnerAndRepo(repoPath, user string) (string, string) {
 	if len(repoPath) == 0 {
-		return "", ""
+		return user, ""
 	}
 	p := strings.Split(strings.TrimLeft(repoPath, "/"), "/")
 	if len(p) >= 2 {

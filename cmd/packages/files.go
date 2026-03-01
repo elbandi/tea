@@ -21,13 +21,14 @@ var CmdPackageFiles = cli.Command{
 	Description: "List files in a specific package version",
 	ArgsUsage:   "<package-type> <package-name> <package-version>",
 	Action:      RunPackageFiles,
-	Flags:       flags.AllDefaultFlags,
+	Flags: append([]cli.Flag{
+		&flags.OrgFlag,
+	}, flags.AllDefaultFlags...),
 }
 
 // RunPackageFiles lists files in a package
 func RunPackageFiles(_ stdctx.Context, cmd *cli.Command) error {
 	ctx := context.InitCommand(cmd)
-	ctx.Ensure(context.CtxRequirement{RemoteRepo: true})
 
 	if cmd.NArg() < 3 {
 		return fmt.Errorf("package type, name, and version are required")
@@ -39,7 +40,12 @@ func RunPackageFiles(_ stdctx.Context, cmd *cli.Command) error {
 
 	client := ctx.Login.Client()
 
-	files, _, err := client.ListPackageFiles(ctx.Owner, packageType, packageName, packageVersion)
+	owner := ctx.Owner
+	if ctx.Org != "" {
+		owner = ctx.Org
+	}
+
+	files, _, err := client.ListPackageFiles(owner, packageType, packageName, packageVersion)
 	if err != nil {
 		return err
 	}

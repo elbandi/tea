@@ -863,6 +863,8 @@ List packages
 
 **--login, -l**="": Use a different Gitea Login. Optional
 
+**--org**="": Override organization to interact with. Optional
+
 **--output, -o**="": Output format. (simple, table, csv, tsv, yaml, json)
 
 **--page, -p**="": specify page (default: 1)
@@ -881,6 +883,8 @@ Show package details
 
 **--login, -l**="": Use a different Gitea Login. Optional
 
+**--org**="": Override organization to interact with. Optional
+
 **--output, -o**="": Output format. (simple, table, csv, tsv, yaml, json)
 
 **--remote, -R**="": Discover Gitea login from remote. Optional
@@ -892,6 +896,8 @@ Show package details
 List files in a package
 
 **--login, -l**="": Use a different Gitea Login. Optional
+
+**--org**="": Override organization to interact with. Optional
 
 **--output, -o**="": Output format. (simple, table, csv, tsv, yaml, json)
 
@@ -906,6 +912,8 @@ Delete a package
 **--confirm, -y**: Confirm deletion (required)
 
 **--login, -l**="": Use a different Gitea Login. Optional
+
+**--org**="": Override organization to interact with. Optional
 
 **--output, -o**="": Output format. (simple, table, csv, tsv, yaml, json)
 
@@ -925,6 +933,8 @@ Publish a generic package file
 
 **--login, -l**="": Use a different Gitea Login. Optional
 
+**--org**="": Override organization to interact with. Optional
+
 **--output, -o**="": Output format. (simple, table, csv, tsv, yaml, json)
 
 **--package-name, -n**="": Package name
@@ -942,6 +952,8 @@ Delete a package file
 **--confirm, -y**: Confirm deletion (required)
 
 **--login, -l**="": Use a different Gitea Login. Optional
+
+**--org**="": Override organization to interact with. Optional
 
 **--output, -o**="": Output format. (simple, table, csv, tsv, yaml, json)
 

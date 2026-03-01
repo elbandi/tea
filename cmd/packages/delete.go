@@ -27,12 +27,12 @@ var CmdPackageDelete = cli.Command{
 			Aliases: []string{"y"},
 			Usage:   "Confirm deletion (required)",
 		},
+		&flags.OrgFlag,
 	}, flags.AllDefaultFlags...),
 }
 
 func runPackageDelete(_ stdctx.Context, cmd *cli.Command) error {
 	ctx := context.InitCommand(cmd)
-	ctx.Ensure(context.CtxRequirement{RemoteRepo: true})
 
 	if cmd.NArg() < 3 {
 		return fmt.Errorf("package type, name, and version are required")
@@ -49,7 +49,11 @@ func runPackageDelete(_ stdctx.Context, cmd *cli.Command) error {
 
 	client := ctx.Login.Client()
 
-	_, err := client.DeletePackage(ctx.Owner, packageType, packageName, packageVersion)
+	owner := ctx.Owner
+	if ctx.Org != "" {
+		owner = ctx.Org
+	}
+	_, err := client.DeletePackage(owner, packageType, packageName, packageVersion)
 	if err != nil {
 		return err
 	}
