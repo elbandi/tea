@@ -16,5 +16,6 @@ var CmdPackagesGeneric = cli.Command{
 	Description: "List, view, and manage generic packages in the package registry",
 	Commands: []*cli.Command{
 		&generic.CmdPackageGenericPublish,
+		&generic.CmdPackageGenericDeleteFile,
 	},
 }
