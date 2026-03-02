@@ -3,6 +3,10 @@ COPY . /build/
 WORKDIR /build
 RUN make build && mkdir -p /app/.config/tea
 
+FROM gitea/runner-images:ubuntu-latest-slim AS runner-image
+COPY --from=build /build/tea /bin/tea
+COPY --from=build --chown=0:0 /app /root
+
 FROM docker.io/chainguard/busybox:latest-glibc
 COPY --from=build /build/tea /bin/tea
 COPY --from=build --chown=65532:65532 /app /app
