@@ -4,6 +4,14 @@ WORKDIR /build
 RUN make build && mkdir -p /app/.config/tea
 
 FROM gitea/runner-images:ubuntu-latest-slim AS runner-image
+
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+    ; \
+    rm -rf /var/lib/apt/lists/*
+
 COPY --from=build /build/tea /bin/tea
 COPY --from=build --chown=0:0 /app /root
 
