@@ -843,6 +843,124 @@ Delete one or more release attachments
 
 **--repo, -r**="": Override local repository path or gitea repository slug to interact with. Optional
 
+## packages, package, pkg
+
+Manage packages
+
+**--login, -l**="": Use a different Gitea Login. Optional
+
+**--output, -o**="": Output format. (simple, table, csv, tsv, yaml, json)
+
+**--remote, -R**="": Discover Gitea login from remote. Optional
+
+**--repo, -r**="": Override local repository path or gitea repository slug to interact with. Optional
+
+### list, ls
+
+List packages
+
+**--limit, --lm**="": specify limit of items per page (default: 30)
+
+**--login, -l**="": Use a different Gitea Login. Optional
+
+**--org**="": Override organization to interact with. Optional
+
+**--output, -o**="": Output format. (simple, table, csv, tsv, yaml, json)
+
+**--page, -p**="": specify page (default: 1)
+
+**--query, -q**="": Search query to filter packages by name
+
+**--remote, -R**="": Discover Gitea login from remote. Optional
+
+**--repo, -r**="": Override local repository path or gitea repository slug to interact with. Optional
+
+**--type, -t**="": Filter by package type (e.g., generic, npm, maven, container)
+
+### show
+
+Show package details
+
+**--login, -l**="": Use a different Gitea Login. Optional
+
+**--org**="": Override organization to interact with. Optional
+
+**--output, -o**="": Output format. (simple, table, csv, tsv, yaml, json)
+
+**--remote, -R**="": Discover Gitea login from remote. Optional
+
+**--repo, -r**="": Override local repository path or gitea repository slug to interact with. Optional
+
+### files
+
+List files in a package
+
+**--login, -l**="": Use a different Gitea Login. Optional
+
+**--org**="": Override organization to interact with. Optional
+
+**--output, -o**="": Output format. (simple, table, csv, tsv, yaml, json)
+
+**--remote, -R**="": Discover Gitea login from remote. Optional
+
+**--repo, -r**="": Override local repository path or gitea repository slug to interact with. Optional
+
+### delete, rm
+
+Delete a package
+
+**--confirm, -y**: Confirm deletion (required)
+
+**--login, -l**="": Use a different Gitea Login. Optional
+
+**--org**="": Override organization to interact with. Optional
+
+**--output, -o**="": Output format. (simple, table, csv, tsv, yaml, json)
+
+**--remote, -R**="": Discover Gitea login from remote. Optional
+
+**--repo, -r**="": Override local repository path or gitea repository slug to interact with. Optional
+
+### generic
+
+Manage generics packages
+
+#### publish, upload, push
+
+Publish a generic package file
+
+**--file, -f**="": Path to file(s) to upload. Can be specified multiple times
+
+**--login, -l**="": Use a different Gitea Login. Optional
+
+**--org**="": Override organization to interact with. Optional
+
+**--output, -o**="": Output format. (simple, table, csv, tsv, yaml, json)
+
+**--package-name, -n**="": Package name
+
+**--package-version, -v**="": Package version
+
+**--remote, -R**="": Discover Gitea login from remote. Optional
+
+**--repo, -r**="": Override local repository path or gitea repository slug to interact with. Optional
+
+#### delete, rm
+
+Delete a package file
+
+**--confirm, -y**: Confirm deletion (required)
+
+**--login, -l**="": Use a different Gitea Login. Optional
+
+**--org**="": Override organization to interact with. Optional
+
+**--output, -o**="": Output format. (simple, table, csv, tsv, yaml, json)
+
+**--remote, -R**="": Discover Gitea login from remote. Optional
+
+**--repo, -r**="": Override local repository path or gitea repository slug to interact with. Optional
+
 ## times, time, t
 
 Operate on tracked times of a repository's issues & pulls

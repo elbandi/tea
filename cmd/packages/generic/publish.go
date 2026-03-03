@@ -46,12 +46,12 @@ var CmdPackageGenericPublish = cli.Command{
 			Usage:    "Path to file(s) to upload. Can be specified multiple times",
 			Required: true,
 		},
+		&flags.OrgFlag,
 	}, flags.AllDefaultFlags...),
 }
 
 func runPackagePublish(_ stdctx.Context, cmd *cli.Command) error {
 	ctx := context.InitCommand(cmd)
-	ctx.Ensure(context.CtxRequirement{RemoteRepo: true})
 
 	packageName := cmd.String("package-name")
 	packageVersion := cmd.String("package-version")
@@ -69,9 +69,13 @@ func runPackagePublish(_ stdctx.Context, cmd *cli.Command) error {
 		return fmt.Errorf("package version cannot be empty")
 	}
 
+	owner := ctx.Owner
+	if ctx.Org != "" {
+		owner = ctx.Org
+	}
 	// Upload each file
 	for _, filePath := range files {
-		if err := uploadPackageFile(ctx, packageName, packageVersion, filePath); err != nil {
+		if err := uploadPackageFile(ctx, owner, packageName, packageVersion, filePath); err != nil {
 			return fmt.Errorf("failed to upload %s: %w", filePath, err)
 		}
 		fmt.Printf("Uploaded: %s\n", filepath.Base(filePath))
@@ -86,7 +90,7 @@ func runPackagePublish(_ stdctx.Context, cmd *cli.Command) error {
 	return nil
 }
 
-func uploadPackageFile(ctx *context.TeaContext, packageName, packageVersion, filePath string) error {
+func uploadPackageFile(ctx *context.TeaContext, owner, packageName, packageVersion, filePath string) error {
 	// Open the file
 	file, err := os.Open(filePath)
 	if err != nil {
@@ -106,7 +110,7 @@ func uploadPackageFile(ctx *context.TeaContext, packageName, packageVersion, fil
 	// Generic package upload endpoint: PUT /api/packages/{owner}/generic/{package_name}/{package_version}/{file_name}
 	apiURL := fmt.Sprintf("%s/api/packages/%s/generic/%s/%s/%s",
 		strings.TrimSuffix(ctx.Login.URL, "/"),
-		ctx.Owner,
+		owner,
 		packageName,
 		packageVersion,
 		fileName,

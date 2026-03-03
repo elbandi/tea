@@ -27,12 +27,12 @@ var CmdPackageGenericDeleteFile = cli.Command{
 			Aliases: []string{"y"},
 			Usage:   "Confirm deletion (required)",
 		},
+		&flags.OrgFlag,
 	}, flags.AllDefaultFlags...),
 }
 
 func runPackageGenericDeleteFile(_ stdctx.Context, cmd *cli.Command) error {
 	ctx := context.InitCommand(cmd)
-	ctx.Ensure(context.CtxRequirement{RemoteRepo: true})
 
 	if cmd.NArg() < 3 {
 		return fmt.Errorf("package name, version, and file are required")
@@ -49,7 +49,11 @@ func runPackageGenericDeleteFile(_ stdctx.Context, cmd *cli.Command) error {
 
 	client := ctx.Login.Client()
 
-	_, err := client.DeletePackageGenericFile(ctx.Owner, packageName, packageVersion, packageFile)
+	owner := ctx.Owner
+	if ctx.Org != "" {
+		owner = ctx.Org
+	}
+	_, err := client.DeletePackageGenericFile(owner, packageName, packageVersion, packageFile)
 	if err != nil {
 		return err
 	}
