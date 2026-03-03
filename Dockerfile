@@ -3,7 +3,7 @@ COPY . /build/
 WORKDIR /build
 RUN make build && mkdir -p /app/.config/tea
 
-FROM gitea/runner-images:ubuntu-latest-slim AS runner-image
+FROM gitea/runner-images:ubuntu-latest AS runner-image
 
 RUN set -eux; \
     apt-get update; \
